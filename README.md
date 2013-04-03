@@ -1,6 +1,6 @@
-# forwardablex
+# ForwardableX
 
-forwardablex is a ruby library to extend forwardable.rb.
+ForwardableX is a Ruby library to extend forwardable.rb.
 
 ## Installation
 
@@ -49,7 +49,7 @@ class Forwarder
     def m
       "forwarded"
     end
-    end
+  end
   forward self, :m
 end
 Forwarder.new.m #=> "forwarded"
@@ -57,7 +57,7 @@ Forwarder.new.m #=> "forwarded"
 
 ## Licence
 
-forwardablex is free software distributed under MIT licence.
+ForwardableX is free software distributed under MIT licence.
 
 ## Contributing
 
