@@ -9,8 +9,8 @@ Gem::Specification.new do |gem|
   gem.version       = ForwardableX::VERSION
   gem.authors       = ["Keita Yamaguchi"]
   gem.email         = ["keita.yamaguchi@gmail.com"]
-  gem.description   = "This is a library to enable you to forward methods really."
-  gem.summary       = "enable you to forward methods really"
+  gem.description   = "This is a library to extend Forwardable functions"
+  gem.summary       = "Forwardable extension"
   gem.homepage      = "https://github.com/keita/forwardablex"
 
   gem.files         = `git ls-files`.split($/)
