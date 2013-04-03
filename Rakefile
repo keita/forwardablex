@@ -7,10 +7,10 @@ end
 
 desc 'Generate API document'
 task 'html' do
-  sh "yard doc -o html --hide-void-return --no-api"
+  sh "bundle exec yard doc -o html --hide-void-return --no-api"
 end
 
 desc 'Show undocumented function list'
 task 'html:undoc' do
-  sh "yard stats --list-undoc --no-api --compact"
+  sh "bundle exec yard stats --list-undoc --no-api --compact"
 end
