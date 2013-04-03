@@ -4,7 +4,7 @@ forwardablex is a ruby library to extend forwardable.rb.
 
 ## Installation
 
-    gem 'forwardablex'
+    gem install forwardablex
 
 ## Usage
 
