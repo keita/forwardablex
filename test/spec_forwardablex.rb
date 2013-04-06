@@ -87,6 +87,24 @@ singletonforwarder = Forwarder.new("singletonforwarder").tap do |obj|
   obj.def_singleton_delegators Receiver.new, :m8, :m9
 end
 
+class ClassMethodForwarder
+  class << self
+    def m
+      "forwarded"
+    end
+  end
+
+  forward :class, :m
+end
+
+class ClassMethodForwarderA < ClassMethodForwarder
+  class << self
+    def m
+      "forwarded to A"
+    end
+  end
+end
+
 describe 'ForwardableX' do
   [ XForwarder.new,
     DefDelegatorForwarder.new,
@@ -114,5 +132,10 @@ describe 'ForwardableX' do
         end
       end
     end
+  end
+
+  it 'should forward to class' do
+    ClassMethodForwarder.new.m.should == "forwarded"
+    ClassMethodForwarderA.new.m.should == "forwarded to A"
   end
 end

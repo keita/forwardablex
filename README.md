@@ -50,7 +50,7 @@ class Forwarder
       "forwarded"
     end
   end
-  forward self, :m
+  forward :class, :m
 end
 Forwarder.new.m #=> "forwarded"
 ```

@@ -38,7 +38,7 @@ require "forwardablex/version"
 #         "forwarded"
 #       end
 #     end
-#     forward self, :m
+#     forward :class, :m
 #   end
 #   Forwarder.new.m #=> "forwarded"
 module ForwardableX
@@ -56,6 +56,10 @@ module ForwardableX
     context = self.kind_of?(Module) ? self : self.singleton_class
     context.instance_eval do
       case receiver
+      when :class
+        define_method(name) do |*args, &b|
+          self.class.__send__(method, *args, &b)
+        end
       when Symbol, String
         define_method(name) do |*args, &b|
           instance_variable_get(receiver).__send__(method, *args, &b)
