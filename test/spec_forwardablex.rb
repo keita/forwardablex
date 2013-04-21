@@ -20,9 +20,9 @@ class XForwarder < Forwarder
   forward :@rec, :m1
   forward :@rec, :m1, :mm1
   forward! :@rec, :m2, :m3
-  forward Proc.new{Receiver.new}, :m4
-  forward Proc.new{Receiver.new}, :m4, :mm4
-  forward! Proc.new{Receiver.new}, :m5, :m6
+  forward Proc.new{@rec}, :m4
+  forward Proc.new{@rec}, :m4, :mm4
+  forward! Proc.new{@rec}, :m5, :m6
   forward Receiver.new, :m7
   forward Receiver.new, :m7, :mm7
   forward! Receiver.new, :m8, :m9
@@ -32,9 +32,9 @@ class DefDelegatorForwarder < Forwarder
   def_delegator :@rec, :m1
   def_delegator :@rec, :m1, :mm1
   def_delegators :@rec, :m2, :m3
-  def_delegator Proc.new{Receiver.new}, :m4
-  def_delegator Proc.new{Receiver.new}, :m4, :mm4
-  def_delegators Proc.new{Receiver.new}, :m5, :m6
+  def_delegator Proc.new{@rec}, :m4
+  def_delegator Proc.new{@rec}, :m4, :mm4
+  def_delegators Proc.new{@rec}, :m5, :m6
   def_delegator Receiver.new, :m7
   def_delegator Receiver.new, :m7, :mm7
   def_delegators Receiver.new, :m8, :m9
@@ -44,9 +44,9 @@ class DefInstanceDelegatorForwarder < Forwarder
   def_instance_delegator :@rec, :m1
   def_instance_delegator :@rec, :m1, :mm1
   def_instance_delegators :@rec, :m2, :m3
-  def_instance_delegator Proc.new{Receiver.new}, :m4
-  def_instance_delegator Proc.new{Receiver.new}, :m4, :mm4
-  def_instance_delegators Proc.new{Receiver.new}, :m5, :m6
+  def_instance_delegator Proc.new{@rec}, :m4
+  def_instance_delegator Proc.new{@rec}, :m4, :mm4
+  def_instance_delegators Proc.new{@rec}, :m5, :m6
   def_instance_delegator Receiver.new, :m7
   def_instance_delegator Receiver.new, :m7, :mm7
   def_instance_delegators Receiver.new, :m8, :m9
@@ -55,8 +55,8 @@ end
 class DelegateForwarder < Forwarder
   delegate :m1 => :@rec
   delegate [:m2, :m3] => :@rec
-  delegate :m4 => Proc.new{Receiver.new}
-  delegate [:m5, :m6] => Proc.new{Receiver.new}
+  delegate :m4 => Proc.new{@rec}
+  delegate [:m5, :m6] => Proc.new{@rec}
   delegate :m7 => Receiver.new
   delegate [:m8, :m9] => Receiver.new
 end
@@ -66,9 +66,9 @@ xforwarder = Forwarder.new("xforwarder").tap do |obj|
   obj.forward :@rec, :m1
   obj.forward :@rec, :m1, :mm1
   obj.forward! :@rec, :m2, :m3
-  obj.forward Proc.new{Receiver.new}, :m4
-  obj.forward Proc.new{Receiver.new}, :m4, :mm4
-  obj.forward! Proc.new{Receiver.new}, :m5, :m6
+  obj.forward Proc.new{@rec}, :m4
+  obj.forward Proc.new{@rec}, :m4, :mm4
+  obj.forward! Proc.new{@rec}, :m5, :m6
   obj.forward Receiver.new, :m7
   obj.forward Receiver.new, :m7, :mm7
   obj.forward! Receiver.new, :m8, :m9
@@ -79,9 +79,9 @@ singletonforwarder = Forwarder.new("singletonforwarder").tap do |obj|
   obj.def_singleton_delegator :@rec, :m1
   obj.def_singleton_delegator :@rec, :m1, :mm1
   obj.def_singleton_delegators :@rec, :m2, :m3
-  obj.def_singleton_delegator Proc.new{Receiver.new}, :m4
-  obj.def_singleton_delegator Proc.new{Receiver.new}, :m4, :mm4
-  obj.def_singleton_delegators Proc.new{Receiver.new}, :m5, :m6
+  obj.def_singleton_delegator Proc.new{@rec}, :m4
+  obj.def_singleton_delegator Proc.new{@rec}, :m4, :mm4
+  obj.def_singleton_delegators Proc.new{@rec}, :m5, :m6
   obj.def_singleton_delegator Receiver.new, :m7
   obj.def_singleton_delegator Receiver.new, :m7, :mm7
   obj.def_singleton_delegators Receiver.new, :m8, :m9

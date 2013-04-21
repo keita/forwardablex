@@ -66,7 +66,7 @@ module ForwardableX
         end
       when Proc
         define_method(name) do |*args, &b|
-          receiver.call.__send__(method, *args, &b)
+          instance_eval(&receiver).__send__(method, *args, &b)
         end
       else
         define_method(name) do |*args, &b|
