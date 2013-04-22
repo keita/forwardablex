@@ -106,6 +106,51 @@ module ForwardableX
       forward!(receiver, *methods)
     end
   end
+
+  # Define a method that forwards the key to the receiver. You can specify
+  # receiver as instance variable name, Proc object, and plain object.
+  #
+  # @param receiver [Symbol, String, Proc, or Object]
+  #   message receiver that have method #[]
+  # @param key [Symbol]
+  #   key that we forward to the receiver
+  # @param name [Symbol]
+  #   method name that we forward from
+  # @return [void]
+  def forward_as_key(receiver, key, name=key)
+    context = self.kind_of?(Module) ? self : self.singleton_class
+    context.instance_eval do
+      case receiver
+      when :class
+        define_method(name) do |*args, &b|
+          self.class.__send__(:[], key, *args, &b)
+        end
+      when Symbol, String
+        define_method(name) do |*args, &b|
+          instance_variable_get(receiver).__send__(:[], key, *args, &b)
+        end
+      when Proc
+        define_method(name) do |*args, &b|
+          instance_eval(&receiver).__send__(:[], key, *args, &b)
+        end
+      else
+        define_method(name) do |*args, &b|
+          receiver.__send__(:[], key, *args, &b)
+        end
+      end
+    end
+  end
+
+  # Define each method that forwards to the receiver as key.
+  #
+  # @param receiver [Symbol, String, Proc, or Object]
+  #   message receiver that have method #[]
+  # @param key [Array<Symbol>]
+  #   key that we forward to the receiver
+  # @return [void]
+  def forward_as_key!(receiver, *keys)
+    keys.each {|key| forward_as_key(receiver, key)}
+  end
 end
 
 # @api private
