@@ -1,8 +1,8 @@
 # ForwardableX
 
-[![Build Status](https://travis-ci.org/keita/forwardablex.png?branch=master)](https://travis-ci.org/keita/forwardablex) [![Gem Version](https://badge.fury.io/rb/forwardablex.png)](http://badge.fury.io/rb/forwardablex)
-
 ForwardableX is a Ruby library to extend forwardable.rb.
+
+[![Gem Version](https://badge.fury.io/rb/forwardablex.png)](http://badge.fury.io/rb/forwardablex) [![Build Status](https://travis-ci.org/keita/forwardablex.png?branch=master)](https://travis-ci.org/keita/forwardablex) [![Coverage Status](https://coveralls.io/repos/keita/forwardablex/badge.png?branch=master)](https://coveralls.io/r/keita/forwardablex) [![Code Climate](https://codeclimate.com/github/keita/forwardablex.png)](https://codeclimate.com/github/keita/forwardablex)
 
 ## Installation
 
@@ -69,6 +69,10 @@ class Forwarder
 end
 Forwarder.new.key # => "forwarded"
 ```
+
+## Documentation
+
+- [API Documentation](http://rubydoc.info/gems/forwardablex)
 
 ## Licence
 
