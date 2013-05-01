@@ -1,5 +1,7 @@
 # ForwardableX
 
+[![Build Status](https://travis-ci.org/keita/forwardablex.png?branch=master)](https://travis-ci.org/keita/forwardablex) [![Gem Version](https://badge.fury.io/rb/forwardablex.png)](http://badge.fury.io/rb/forwardablex)
+
 ForwardableX is a Ruby library to extend forwardable.rb.
 
 ## Installation
