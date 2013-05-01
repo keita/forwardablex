@@ -55,6 +55,19 @@ end
 Forwarder.new.m #=> "forwarded"
 ```
 
+### Table Accessor
+
+```ruby
+class Forwarder
+  forward_as_key :@table, :key
+
+  def initialize
+    @table = {:key => "forwarded"}
+  end
+end
+Forwarder.new.key # => "forwarded"
+```
+
 ## Licence
 
 ForwardableX is free software distributed under MIT licence.

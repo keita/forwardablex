@@ -109,6 +109,16 @@ class ClassMethodForwarderA < ClassMethodForwarder
   end
 end
 
+class KeyForwarder
+  forward_as_key :@table, :a
+  forward_as_key :@table, :a, :b
+  forward_as_key! :@table, :c, :d, :e
+
+  def initialize(table={})
+    @table = table
+  end
+end
+
 describe 'ForwardableX' do
   [ XForwarder.new,
     DefDelegatorForwarder.new,
@@ -141,5 +151,15 @@ describe 'ForwardableX' do
   it 'should forward to class' do
     ClassMethodForwarder.new.m.should == "forwarded"
     ClassMethodForwarderA.new.m.should == "forwarded to A"
+  end
+
+  it 'should forward to the table as key' do
+    KeyForwarder.new(a: 1, b: 2, c: 3, d: 4, e: 5).tap do |obj|
+      obj.a.should == 1
+      obj.b.should == 1
+      obj.c.should == 3
+      obj.d.should == 4
+      obj.e.should == 5
+    end
   end
 end

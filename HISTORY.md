@@ -1,5 +1,9 @@
 # History of ForwardableX
 
+## 0.1.3
+
+* Added forward_as_key and forward_as_key! that forward key to receiver.
+
 ## 0.1.2
 
 * Bug fix: proc receivers should be evaluated in context of instance.
