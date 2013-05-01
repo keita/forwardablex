@@ -113,6 +113,15 @@ class KeyForwarder
   forward_as_key :@table, :a
   forward_as_key :@table, :a, :b
   forward_as_key! :@table, :c, :d, :e
+  forward_as_key :class, :f
+  forward_as_key Proc.new{@table}, :g
+  forward_as_key Receiver.new, :h
+
+  class << self
+    def [](key)
+      {f: 1}[key]
+    end
+  end
 
   def initialize(table={})
     @table = table
@@ -154,12 +163,15 @@ describe 'ForwardableX' do
   end
 
   it 'should forward to the table as key' do
-    KeyForwarder.new(a: 1, b: 2, c: 3, d: 4, e: 5).tap do |obj|
+    KeyForwarder.new(a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7, h: 8).tap do |obj|
       obj.a.should == 1
       obj.b.should == 1
       obj.c.should == 3
       obj.d.should == 4
       obj.e.should == 5
+      obj.f.should == 1
+      obj.g.should == 7
+      obj.h.should == :[]
     end
   end
 end
