@@ -1,3 +1,7 @@
+require 'simplecov'
+require 'coveralls'
+SimpleCov.start {add_filter 'test'}
+
 require 'forwardable'
 require 'forwardablex'
 
