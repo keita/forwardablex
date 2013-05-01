@@ -14,3 +14,5 @@ desc 'Show undocumented function list'
 task 'html:undoc' do
   sh "bundle exec yard stats --list-undoc --no-api --compact"
 end
+
+task :default => :test
