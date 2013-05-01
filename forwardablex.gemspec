@@ -17,6 +17,7 @@ Gem::Specification.new do |gem|
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
+  gem.add_development_dependency "rake"
   gem.add_development_dependency "bacon"
   gem.add_development_dependency "yard", "~> 0.8.5"
   gem.add_development_dependency "redcarpet"
