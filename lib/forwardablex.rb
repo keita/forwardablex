@@ -57,21 +57,13 @@ module ForwardableX
     context.instance_eval do
       case receiver
       when :class
-        define_method(name) do |*args, &b|
-          self.class.__send__(method, *args, &b)
-        end
+        forward_class_receiver(method, name)
       when Symbol, String
-        define_method(name) do |*args, &b|
-          instance_variable_get(receiver).__send__(method, *args, &b)
-        end
+        forward_named_receiver(receiver, method, name)
       when Proc
-        define_method(name) do |*args, &b|
-          instance_eval(&receiver).__send__(method, *args, &b)
-        end
+        forward_proc_receiver(receiver, method, name)
       else
-        define_method(name) do |*args, &b|
-          receiver.__send__(method, *args, &b)
-        end
+        forward_object_receiver(receiver, method, name)
       end
     end
   end
@@ -122,21 +114,13 @@ module ForwardableX
     context.instance_eval do
       case receiver
       when :class
-        define_method(name) do |*args, &b|
-          self.class.__send__(:[], key, *args, &b)
-        end
+        forward_class_receiver(:[], name, key)
       when Symbol, String
-        define_method(name) do |*args, &b|
-          instance_variable_get(receiver).__send__(:[], key, *args, &b)
-        end
+        forward_named_receiver(receiver, :[], name, key)
       when Proc
-        define_method(name) do |*args, &b|
-          instance_eval(&receiver).__send__(:[], key, *args, &b)
-        end
+        forward_proc_receiver(receiver, :[], name, key)
       else
-        define_method(name) do |*args, &b|
-          receiver.__send__(:[], key, *args, &b)
-        end
+        forward_object_receiver(receiver, :[], name, key)
       end
     end
   end
@@ -150,6 +134,74 @@ module ForwardableX
   # @return [void]
   def forward_as_key!(receiver, *keys)
     keys.each {|key| forward_as_key(receiver, key)}
+  end
+
+  private
+
+  # Forward the method to class receiver.
+  #
+  # @param method [Symbol]
+  #   class method name
+  # @param name [Symbol]
+  #   forwarder method name
+  # @param _args [Array<Object>]
+  #   additional arguments
+  # @return [void]
+  def forward_class_receiver(method, name, *_args)
+    define_method(name) do |*args, &b|
+      self.class.__send__(method, *_args, *args, &b)
+    end
+  end
+
+  # Forward the method to the named receiver.
+  #
+  # @param receiver [Symbol]
+  #   receiver's name
+  # @param method [Symbol]
+  #   class method name
+  # @param name [Symbol]
+  #   forwarder method name
+  # @param _args [Array<Object>]
+  #   additional arguments
+  # @return [void]
+  def forward_named_receiver(receiver, method, name, *_args)
+    define_method(name) do |*args, &b|
+      instance_variable_get(receiver).__send__(method, *_args, *args, &b)
+    end
+  end
+
+  # Forward the method to the Proc result.
+  #
+  # @param proc [Proc]
+  #   Proc object that generate the receiver
+  # @param method [Symbol]
+  #   class method name
+  # @param name [Symbol]
+  #   forwarder method name
+  # @param _args [Array<Object>]
+  #   additional arguments
+  # @return [void]
+  def forward_proc_receiver(proc, method, name, *_args)
+    define_method(name) do |*args, &b|
+      instance_eval(&proc).__send__(method, *_args, *args, &b)
+    end
+  end
+
+  # Forward the method to the object.
+  #
+  # @param receiver [Object]
+  #   receiver object
+  # @param method [Symbol]
+  #   class method name
+  # @param name [Symbol]
+  #   forwarder method name
+  # @param _args [Array<Object>]
+  #   additional arguments
+  # @return [void]
+  def forward_object_receiver(receiver, method, name, *_args)
+    define_method(name) do |*args, &b|
+      receiver.__send__(method, *args, &b)
+    end
   end
 end
 
