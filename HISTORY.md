@@ -1,5 +1,9 @@
 # History of ForwardableX
 
+## 0.1.4
+
+* Added receiver keyword :identity.
+
 ## 0.1.3
 
 * Added forward_as_key and forward_as_key! that forward key to receiver.
