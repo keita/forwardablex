@@ -58,6 +58,8 @@ module ForwardableX
       case receiver
       when :class
         forward_class_receiver(method, name)
+      when :identity
+        forward_identity_receiver(name)
       when Symbol, String
         forward_named_receiver(receiver, method, name)
       when Proc
@@ -115,6 +117,8 @@ module ForwardableX
       case receiver
       when :class
         forward_class_receiver(:[], name, key)
+      when :identity
+        forward_identity_receiver(name)
       when Symbol, String
         forward_named_receiver(receiver, :[], name, key)
       when Proc
@@ -138,10 +142,10 @@ module ForwardableX
 
   private
 
-  # Forward the method to class receiver.
+  # Forward the name to class receiver.
   #
   # @param method [Symbol]
-  #   class method name
+  #   method name of the class
   # @param name [Symbol]
   #   forwarder method name
   # @param _args [Array<Object>]
@@ -153,12 +157,12 @@ module ForwardableX
     end
   end
 
-  # Forward the method to the named receiver.
+  # Forward the name to the named receiver.
   #
   # @param receiver [Symbol]
   #   receiver's name
   # @param method [Symbol]
-  #   class method name
+  #   method name of the receiver
   # @param name [Symbol]
   #   forwarder method name
   # @param _args [Array<Object>]
@@ -170,12 +174,12 @@ module ForwardableX
     end
   end
 
-  # Forward the method to the Proc result.
+  # Forward the name to the Proc result.
   #
   # @param proc [Proc]
   #   Proc object that generate the receiver
   # @param method [Symbol]
-  #   class method name
+  #   method name of the proc result
   # @param name [Symbol]
   #   forwarder method name
   # @param _args [Array<Object>]
@@ -187,12 +191,23 @@ module ForwardableX
     end
   end
 
-  # Forward the method to the object.
+  # Forward the name to the identity function.
+  #
+  # @param name [Symbol]
+  #   forwarder method name
+  # @return [void]
+  def forward_identity_receiver(name)
+    define_method(name) do |*args, &b|
+      self
+    end
+  end
+
+  # Forward the name to the object.
   #
   # @param receiver [Object]
   #   receiver object
   # @param method [Symbol]
-  #   class method name
+  #   method name of the object
   # @param name [Symbol]
   #   forwarder method name
   # @param _args [Array<Object>]

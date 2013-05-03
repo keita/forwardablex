@@ -133,6 +133,15 @@ class KeyForwarder
   end
 end
 
+class IdentityForwarder
+  forward :identity, :a
+  forward :identity, :a, :b
+  forward! :identity, :c, :d, :e
+  forward_as_key :identity, :f
+  forward_as_key :identity, :f, :g
+  forward_as_key! :identity, :h, :i, :j
+end
+
 describe 'ForwardableX' do
   [ XForwarder.new,
     DefDelegatorForwarder.new,
@@ -178,5 +187,19 @@ describe 'ForwardableX' do
       obj.g.should == 7
       obj.h.should == :[]
     end
+  end
+
+  it 'should forward to identity' do
+    forwarder = IdentityForwarder.new
+    forwarder.a.should == forwarder
+    forwarder.b.should == forwarder
+    forwarder.c.should == forwarder
+    forwarder.d.should == forwarder
+    forwarder.e.should == forwarder
+    forwarder.f.should == forwarder
+    forwarder.g.should == forwarder
+    forwarder.h.should == forwarder
+    forwarder.i.should == forwarder
+    forwarder.j.should == forwarder
   end
 end

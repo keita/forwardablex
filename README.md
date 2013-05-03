@@ -45,7 +45,6 @@ Forwarder.new.m #=> "forwarded"
 ### Class Method Accessor
 
 ```ruby
-Receiver = Struct(:name)
 class Forwarder
   class << self
     def m
@@ -67,7 +66,16 @@ class Forwarder
     @table = {:key => "forwarded"}
   end
 end
-Forwarder.new.key # => "forwarded"
+Forwarder.new.key #=> "forwarded"
+```
+
+### Identity
+
+```ruby
+class Forwarder
+  foward :identity, :self
+end
+Forwarder.new {|x| x == x.self} #=> true
 ```
 
 ## Documentation
